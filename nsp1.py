@@ -7,6 +7,7 @@ from sklearn.metrics import silhouette_score
 import os
 import cv2 
 import umap
+import matplotlib.pyplot as plt
 
 
 lista_pastas = os.listdir("RecFac")
