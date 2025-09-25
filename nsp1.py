@@ -85,13 +85,13 @@ X = X.T
 
 
 # 2D
-umap_var = umap.UMAP(n_components=2, random_state=42)
-X_red5 = umap_var.fit_transform(X)
-plt.figure(3)
-plt.scatter(X_red5[:, 0], X_red5[:, 1], c='r', edgecolor='k')
-plt.title("UMAP - 2D")
-plt.grid()
-plt.show()
+# umap_var = umap.UMAP(n_components=2, random_state=42)
+# X_red5 = umap_var.fit_transform(X)
+# plt.figure(3)
+# plt.scatter(X_red5[:, 0], X_red5[:, 1], c='r', edgecolor='k')
+# plt.title("UMAP - 2D")
+# plt.grid()
+# plt.show()
 
 # 3D
 # umap_var = umap.UMAP(n_components=3, random_state=42)
@@ -112,13 +112,13 @@ plt.show()
 # plt.show()
 
 # # 55D
-# umap_var = umap.UMAP(n_components=55, random_state=42)
-# X_red8 = umap_var.fit_transform(X)
-# plt.figure(6)
-# plt.scatter(X_red8[:, 0], X_red8[:, 1], c='c', edgecolor='k')
-# plt.title("UMAP - 55D (projeção 2D)")
-# plt.grid()
-# plt.show()
+umap_var = umap.UMAP(n_components=55, random_state=42)
+X_red8 = umap_var.fit_transform(X)
+plt.figure(6)
+plt.scatter(X_red8[:, 0], X_red8[:, 1], c='c', edgecolor='k')
+plt.title("UMAP - 55D (projeção 2D)")
+plt.grid()
+plt.show()
 
 # # 101D
 # umap_var = umap.UMAP(n_components=101, random_state=42)
@@ -133,22 +133,37 @@ plt.show()
 #Parte do Sidney
 
 # Supondo que você use os dados do UMAP 2D (X_red5)
-X_cluster = X_red5  
+# X_cluster = X_red5  
 
-# Definir número de clusters (exemplo: 5)
-kmeans = KMeans(n_clusters=5, random_state=42)
+# # Definir número de clusters (exemplo: 5)
+# kmeans = KMeans(n_clusters=5, random_state=42)
+# labels = kmeans.fit_predict(X_cluster)
+
+# # Visualização
+# plt.figure(figsize=(8,6))
+# plt.scatter(X_cluster[:,0], X_cluster[:,1], c=labels, cmap='viridis', edgecolor='k')
+# plt.title("Clusterização com K-means (UMAP 2D)")
+# plt.show()
+
+# score = silhouette_score(X_cluster, labels)
+# print("Silhouette Score (K-means):", score)
+
+
+# Supondo que você use os dados do UMAP 55D (X_red8)
+X_cluster = X_red8 
+
+# Definir número de clusters (exemplo: 3)
+kmeans = KMeans(n_clusters=3, random_state=42)
 labels = kmeans.fit_predict(X_cluster)
 
 # Visualização
 plt.figure(figsize=(8,6))
 plt.scatter(X_cluster[:,0], X_cluster[:,1], c=labels, cmap='viridis', edgecolor='k')
-plt.title("Clusterização com K-means (UMAP 2D)")
+plt.title("Clusterização com K-means (UMAP 55D)")
 plt.show()
 
 score = silhouette_score(X_cluster, labels)
 print("Silhouette Score (K-means):", score)
-
-
 
 
 
