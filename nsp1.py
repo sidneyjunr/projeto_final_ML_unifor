@@ -4,6 +4,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from scipy.spatial.distance import cdist
 import os
 import cv2 
 import umap
@@ -18,7 +19,7 @@ for pasta in lista_pastas:
                 img = cv2.imread(f"RecFac\\{pasta}\\{imagens}", cv2.IMREAD_GRAYSCALE)
                 x = img.flatten()
                 X = np.hstack((
-                        X,x.reshape(len(x),1)
+                        X,x.reshape(len(x),1) 
                 ))
 
 
@@ -164,6 +165,38 @@ plt.show()
 
 score = silhouette_score(X_cluster, labels)
 print("Silhouette Score (K-means):", score)
+
+
+
+
+
+
+###############################################
+#           INDICE DE DUNN#
+
+
+def dunn_index(X, labels):
+    clusters = np.unique(labels)
+    # calcula dispersão (diâmetro máximo de cada cluster)
+    intra_dists = []
+    for c in clusters:
+        pontos = X[labels == c]
+        if len(pontos) > 1:
+            intra_dists.append(np.max(cdist(pontos, pontos)))
+    delta = max(intra_dists)  # maior dispersão interna
+    
+    # calcula menor distância entre clusters
+    inter_dists = []
+    for i in range(len(clusters)):
+        for j in range(i+1, len(clusters)):
+            pontos_i = X[labels == clusters[i]]
+            pontos_j = X[labels == clusters[j]]
+            inter_dists.append(np.min(cdist(pontos_i, pontos_j)))
+    big_delta = min(inter_dists)  # menor distância entre clusters
+    
+    return big_delta / delta
+
+
 
 
 
